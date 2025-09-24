@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Дз от Луневой Алексы, ИС-3.2</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f0f8ff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+        }
+        
+        h2 {
+            text-align: center;
+            color: #34495e;
+            margin-bottom: 20px;
+        }
+        
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+        
+        th {
+            background-color: #3498db;
+            color: white;
+            font-weight: bold;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        
+        tr:hover {
+            background-color: #e3f2fd;
+        }
+        
+        .homework-number {
+            font-weight: bold;
+            width: 20%;
+        }
+        
+        .homework-link {
+            color: #2980b9;
+            text-decoration: none;
+        }
+        
+        .homework-link:hover {
+            text-decoration: underline;
+            color: #e74c3c;
+        }
+        
+        /* Стили для анимированной картинки */
+        .animation-container {
+            text-align: center;
+            margin: 30px 0;
+        }
+        
+        .image-container {
+            width: 100px;           /* Начальная ширина круга */
+            height: 100px;          /* Начальная высота круга */
+            border-radius: 50%;     /* Делаем элемент круглым */
+            overflow: hidden;       /* Скрываем части картинки за пределами круга */
+            margin: 0 auto 20px;    /* Центрируем и добавляем отступ снизу */
+            transition: all 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55); /* Плавный переход для всех свойств */
+            position: relative;     /* Относительное позиционирование */
+            border: 3px solid #3498db; /* Синяя рамка вокруг круга */
+            cursor: pointer;        /* Меняем курсор при наведении */
+        }
+        
+        #animatedImage {
+            width: 100%;            /* Картинка занимает всю ширину контейнера */
+            height: 100%;           /* Картинка занимает всю высоту контейнера */
+            object-fit: cover;      /* Сохраняет пропорции картинки, обрезая лишнее */
+           
+        }
+        
+        .animation-button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin: 10px;
+        }
+        
+        .animation-button:hover {
+            background-color: #0056b3;
+        }
+        
+        /* Классы для анимации */
+        .expanded {
+            width: 300px !important;    /* Конечная ширина прямоугольника */
+            height: 200px !important;   /* Конечная высота прямоугольника */
+            border-radius: 10px !important; /* Углы становятся менее скругленными */
+        }
+        
+        .rotated {
+            transform: rotate(360deg);  /* Картинка поворачивается на 360 градусов */
+        }
+        
+        .result-container {
+            margin: 20px;
+            padding: 15px;
+            background-color: #e8f4f8;
+            border-radius: 5px;
+            border: 1px solid #3498db;
+            min-width: 200px;
+            text-align: center;
+        }
+        
+        /* Стили для игры */
+        .game-container {
+            margin: 20px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            min-width: 300px;
+            text-align: center;
+        }
+        
+        .game-title {
+            color: #e74c3c;
+            margin-bottom: 15px;
+        }
+        
+        .game-info {
+            margin: 10px 0;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+        }
+        
+        .attempts-list {
+            text-align: left;
+            max-height: 150px;
+            overflow-y: auto;
+            margin: 10px 0;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+        }
+        
+        .attempt-item {
+            margin: 5px 0;
+            padding: 5px;
+            border-left: 3px solid #3498db;
+        }
+        
+        .correct {
+            color: #27ae60;
+            font-weight: bold;
+        }
+        
+        .too-high {
+            color: #e74c3c;
+        }
+        
+        .too-low {
+            color: #f39c12;
+        }
+        
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Дз от Луневой Алексы, ИС-3.2</h1>
+    <h2>Домашнее задание</h2>
+    
+    <!-- Контейнер для анимированной картинки -->
+    <div class="animation-container">
+        <div id="imageContainer" class="image-container" title="Нажмите для анимации">
+            <!-- Замените src на путь к вашей картинке -->
+            <img src="fe96f60f-b55c-4d97-b8da-ea67c7eaac57.jpg" 
+                 alt="Разворачивающаяся картинка" 
+                 id="animatedImage">
+        </div>
+    </div>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Номер задания</th>
+                <th>Ссылка на задание</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="homework-number">Домашнее задание 1</td>
+                <td><a href="#" class="homework-link">Тут будет ссылка на домашнее задание</a></td>
+            </tr>
+            <tr>
+                <td class="homework-number">Домашнее задание 2</td>
+                <td><a href="#" class="homework-link">Тут будет ссылка на домашнее задание</a></td>
+            </tr>
+            <tr>
+                <td class="homework-number">Домашнее задание 3</td>
+                <td><a href="#" class="homework-link">Тут будет ссылка на домашнее задание</a></td>
+            </tr>
+            <tr>
+                <td class="homework-number">Домашнее задание 4</td>
+                <td><a href="#" class="homework-link">Тут будет ссылка на домашнее задание</a></td>
+            </tr>
+            <tr>
+                <td class="homework-number">Домашнее задание 5</td>
+                <td><a href="#" class="homework-link">Тут будет ссылка на домашнее задание</a></td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <!-- Контейнер для отображения результата сложения -->
+    <div class="result-container" id="resultContainer" style="display: none;">
+        <h3>Результат сложения:</h3>
+        <p id="resultText"></p>
+    </div>
+    
+    <button class="animation-button" id="calculateButton">Нажми меня чтоб сложить числа</button>
+    
+    <!-- Кнопка для запуска игры -->
+    <button class="animation-button" id="startGameButton">Играть в "Угадай число"</button>
+    
+    <!-- Контейнер для игры -->
+    <div class="game-container hidden" id="gameContainer">
+        <h3 class="game-title">🎮 Угадай число! 🎮</h3>
+        <div class="game-info">
+            <p>Я загадал число от 1 до 100. Попробуй угадать!</p>
+            <p>У тебя есть <span id="attemptsLeft">10</span> попыток</p>
+        </div>
+        
+        <div>
+            <input type="number" id="guessInput" min="1" max="100" placeholder="Введите число от 1 до 100">
+            <button class="animation-button" id="guessButton">Угадать!</button>
+            <button class="animation-button" id="restartGameButton">Начать заново</button>
+        </div>
+        
+        <div id="gameMessage" class="game-info"></div>
+        
+        <div class="attempts-list">
+            <h4>Твои попытки:</h4>
+            <div id="attemptsList"></div>
+        </div>
+    </div>
+
+    <script>
+        // Функция для сложения двух чисел
+        function сложитьЧисла(a, b) {
+            return a + b;
+        }
+
+        // Функция, которая вызывается при нажатии на кнопку сложения
+        function выполнитьСложение() {
+            let число1 = parseFloat(prompt("Введите первое число:"));
+            let число2 = parseFloat(prompt("Введите второе число:"));
+            
+            if (isNaN(число1) || isNaN(число2)) {
+                alert("Ошибка: пожалуйста, введите корректные числа!");
+            } else {
+                let результат = сложитьЧисла(число1, число2);
+                document.getElementById('resultText').textContent = 
+                    число1 + " + " + число2 + " = " + результат;
+                document.getElementById('resultContainer').style.display = 'block';
+                console.log("Результат сложения: " + результат);
+            }
+        }
+
+        // Назначаем обработчик события на кнопку сложения
+        document.getElementById('calculateButton').addEventListener('click', выполнитьСложение);
+    </script>
+
+    <script>
+        // Переменная для отслеживания состояния анимации
+        let isExpanded = false;
+
+        // Основная функция для переключения анимации
+        function toggleAnimation() {
+            const imageContainer = document.getElementById('imageContainer');
+            const image = document.getElementById('animatedImage');
+            
+            if (!isExpanded) {
+                imageContainer.classList.add('expanded');
+                image.classList.add('rotated');
+                isExpanded = true;
+            } else {
+                imageContainer.classList.remove('expanded');
+                image.classList.remove('rotated');
+                isExpanded = false;
+            }
+        }
+
+        // Автоматическое разворачивание при загрузке страницы
+        window.addEventListener('load', function() {
+            setTimeout(() => {
+                toggleAnimation();
+            }, 1000);
+        });
+
+        // Обработчики событий для анимации
+        document.getElementById('imageContainer').addEventListener('mouseenter', function() {
+            if (!isExpanded) {
+                toggleAnimation();
+            }
+        });
+
+        document.getElementById('imageContainer').addEventListener('mouseleave', function() {
+            if (isExpanded) {
+                toggleAnimation();
+            }
+        });
+
+        document.getElementById('animatedImage').addEventListener('click', function(event) {
+            event.stopPropagation();
+            toggleAnimation();
+        });
+    </script>
+
+    <script>
+        // Переменные для игры
+        let secretNumber;
+        let attemptsLeft;
+        let gameActive = false;
+        let attemptsHistory = [];
+
+        // Функция для начала новой игры
+        function startNewGame() {
+            secretNumber = Math.floor(Math.random() * 100) + 1;
+            attemptsLeft = 10;
+            gameActive = true;
+            attemptsHistory = [];
+            
+            // Показываем игровое поле
+            document.getElementById('gameContainer').classList.remove('hidden');
+            document.getElementById('attemptsLeft').textContent = attemptsLeft;
+            document.getElementById('gameMessage').textContent = '';
+            document.getElementById('attemptsList').innerHTML = '';
+            document.getElementById('guessInput').value = '';
+            document.getElementById('guessInput').focus();
+            
+            console.log('Загаданное число (для тестирования):', secretNumber);
+        }
+
+        // Функция для проверки числа
+        function checkGuess() {
+            if (!gameActive) return;
+            
+            const guessInput = document.getElementById('guessInput');
+            const guess = parseInt(guessInput.value);
+            
+            // Проверяем корректность ввода
+            if (isNaN(guess) || guess < 1 || guess > 100) {
+                document.getElementById('gameMessage').textContent = 'Пожалуйста, введите число от 1 до 100!';
+                document.getElementById('gameMessage').style.color = '#e74c3c';
+                return;
+            }
+            
+            // Уменьшаем количество попыток
+            attemptsLeft--;
+            document.getElementById('attemptsLeft').textContent = attemptsLeft;
+            
+            // Добавляем попытку в историю
+            attemptsHistory.push(guess);
+            
+            // Проверяем угадал ли игрок
+            if (guess === secretNumber) {
+                // Победа!
+                document.getElementById('gameMessage').innerHTML = 
+                    '<span class="correct">🎉 Поздравляю! Ты угадал число ' + secretNumber + '!</span>';
+                gameActive = false;
+                addAttemptToHistory(guess, 'correct');
+            } else if (attemptsLeft <= 0) {
+                // Проигрыш
+                document.getElementById('gameMessage').innerHTML = 
+                    '💀 Игра окончена! Загаданное число было: ' + secretNumber;
+                gameActive = false;
+                addAttemptToHistory(guess, guess > secretNumber ? 'too-high' : 'too-low');
+            } else {
+                // Даем подсказку
+                let message = '';
+                let className = '';
+                
+                if (guess > secretNumber) {
+                    message = '📉 Слишком большое число! Попробуй меньше.';
+                    className = 'too-high';
+                } else {
+                    message = '📈 Слишком маленькое число! Попробуй больше.';
+                    className = 'too-low';
+                }
+                
+                document.getElementById('gameMessage').textContent = message;
+                document.getElementById('gameMessage').style.color = className === 'too-high' ? '#e74c3c' : '#f39c12';
+                addAttemptToHistory(guess, className);
+            }
+            
+            // Очищаем поле ввода и фокусируемся на нем
+            guessInput.value = '';
+            guessInput.focus();
+        }
+
+        // Функция для добавления попытки в историю
+        function addAttemptToHistory(guess, className) {
+            const attemptsList = document.getElementById('attemptsList');
+            const attemptItem = document.createElement('div');
+            attemptItem.className = 'attempt-item ' + className;
+            
+            let icon = '';
+            if (className === 'correct') ;
+            else if (className === 'too-high') ;
+            else if (className === 'too-low') ;
+            
+            attemptItem.textContent = icon + 'Попытка ' + (attemptsHistory.length) + ': ' + guess;
+            attemptsList.appendChild(attemptItem);
+            
+            // Прокручиваем к последней попытке
+            attemptsList.scrollTop = attemptsList.scrollHeight;
+        }
+
+        // Функция для обработки нажатия Enter в поле ввода
+        function handleEnterKey(event) {
+            if (event.key === 'Enter') {
+                checkGuess();
+            }
+        }
+
+        // Назначаем обработчики событий для игры
+        document.getElementById('startGameButton').addEventListener('click', startNewGame);
+        document.getElementById('guessButton').addEventListener('click', checkGuess);
+        document.getElementById('restartGameButton').addEventListener('click', startNewGame);
+        document.getElementById('guessInput').addEventListener('keypress', handleEnterKey);
+    </script>
+</body>
+</html>
